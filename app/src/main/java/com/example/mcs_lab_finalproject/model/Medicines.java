@@ -1,10 +1,5 @@
 package com.example.mcs_lab_finalproject.model;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.List;
-
 public class Medicines {
 
     private int medicineID;

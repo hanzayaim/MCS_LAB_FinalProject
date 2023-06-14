@@ -1,25 +1,21 @@
 package com.example.mcs_lab_finalproject.viewmodel;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mcs_lab_finalproject.R;
 import com.example.mcs_lab_finalproject.model.Medicines;
-import com.example.mcs_lab_finalproject.view.MedicineDetailActivity;
 
 import java.util.List;
 
-public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.MedicineViewHolder> {
-
+public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.ViewHolder> {
     private Context context;
     private List<Medicines> medicinesList;
 
@@ -28,30 +24,24 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         this.medicinesList = medicinesList;
     }
 
-    @NonNull
     @Override
-    public MedicineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_medicine, parent, false);
-        return new MedicineViewHolder(view);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_medicine, parent, false);
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MedicineAdapter.MedicineViewHolder holder, int position) {
-        Medicines medicine = medicinesList.get(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Medicines currentItem = medicinesList.get(position);
 
-        holder.tvMedicineName.setText(medicine.getName());
-        holder.tvMedicineManufacturer.setText(medicine.getManufacturer());
-        holder.tvMedicinePrice.setText(String.valueOf(medicine.getPrice()));
-        Glide.with(context).load(medicine.getImage()).into(holder.ivMedicine);
+        holder.tvMedicineName.setText(currentItem.getName());
+        holder.tvMedicineManufacturer.setText(currentItem.getManufacturer());
+        holder.tvMedicinePrice.setText(String.valueOf(currentItem.getPrice()));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, MedicineDetailActivity.class);
-                intent.putExtra("medicineId", medicine.getMedicineID());
-                context.startActivity(intent);
-            }
-        });
+        Glide.with(context)
+                .load(currentItem.getImage())
+                .centerCrop()
+                .into(holder.ivMedicineImage);
     }
 
     @Override
@@ -59,18 +49,19 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         return medicinesList.size();
     }
 
-    static class MedicineViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvMedicineName;
+        public TextView tvMedicineManufacturer;
+        public TextView tvMedicinePrice;
+        public ImageView ivMedicineImage;
 
-        ImageView ivMedicine;
-        TextView tvMedicineName, tvMedicineManufacturer, tvMedicinePrice;
-
-        public MedicineViewHolder(@NonNull View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
 
-            ivMedicine = itemView.findViewById(R.id.ivMedicine);
             tvMedicineName = itemView.findViewById(R.id.tvMedicineName);
-            tvMedicineManufacturer = itemView.findViewById(R.id.tvMedicineManusfacturer);
+            tvMedicineManufacturer = itemView.findViewById(R.id.tvMedicineManufacturer);
             tvMedicinePrice = itemView.findViewById(R.id.tvMedicinePrice);
+            ivMedicineImage = itemView.findViewById(R.id.ivMedicineImage);
         }
     }
 }
