@@ -19,6 +19,8 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager2 viewPager;
     ViewPagerAdapter viewPagerAdapter;
 
+    Button aboutButton;
+
     Button logoutButton;
 
     @Override
@@ -29,6 +31,7 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
         logoutButton = findViewById(R.id.btnLogout);
+        aboutButton = findViewById(R.id.btnAboutUs);
 
         viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
@@ -42,6 +45,14 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
         ).attach();
+
+        aboutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent aboutIntent = new Intent(HomeActivity.this, ActivityAbout.class);
+                startActivity(aboutIntent);
+            }
+        });
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,10 +4,8 @@
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
 
     <application
         android:allowBackup="true"
@@ -20,6 +18,9 @@
         android:theme="@style/Theme.MCS_LAB_FinalProject"
         tools:targetApi="31">
         <activity
+            android:name=".view.ActivityAbout"
+            android:exported="false" />
+        <activity
             android:name=".view.MedicineDetailActivity"
             android:exported="false" />
         <activity
@@ -31,6 +32,11 @@
         <activity
             android:name=".view.RegisterActivity"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCGLLwYdajhaKB_S_tNBo88XTx4rEy7hK0" />
+
         <activity
             android:name=".view.LoginActivity"
             android:exported="true">
