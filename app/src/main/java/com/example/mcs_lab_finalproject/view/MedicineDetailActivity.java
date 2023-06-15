@@ -22,6 +22,9 @@ public class MedicineDetailActivity extends AppCompatActivity {
     private TextView tvMedicineManufacturer;
     private TextView tvMedicinePrice;
     private ImageView ivMedicineImage;
+
+    private TextView tvMedicineDescription;
+
     private EditText etQuantity;
     private Button btnBuy;
     private TransactionsHelper transactionsHelper;
@@ -35,6 +38,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
         tvMedicineName = findViewById(R.id.tvMedicineName);
         tvMedicineManufacturer = findViewById(R.id.tvMedicineManufacturer);
         tvMedicinePrice = findViewById(R.id.tvMedicinePrice);
+        tvMedicineDescription = findViewById(R.id.tvMedicineDesc);
         ivMedicineImage = findViewById(R.id.ivMedicineImage);
         etQuantity = findViewById(R.id.etQuantity);
 
@@ -44,9 +48,12 @@ public class MedicineDetailActivity extends AppCompatActivity {
         String manufacturer = intent.getStringExtra("manufacturer");
         int price = intent.getIntExtra("price", 0);
         String image = intent.getStringExtra("image");
+        String description = intent.getStringExtra("description");
+
 
         tvMedicineName.setText(name);
         tvMedicineManufacturer.setText(manufacturer);
+        tvMedicineDescription.setText(description);
         tvMedicinePrice.setText(String.valueOf(price));
 
         Glide.with(this)
