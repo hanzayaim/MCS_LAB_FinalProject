@@ -13,11 +13,11 @@ import java.util.List;
 public class TransactionsHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "BluejackPharmacy.db";
     private static final String TABLE_NAME = "Transactions";
-    public static final String COLUMN_TRANSACTIONID = "transactionID";
-    public static final String COLUMN_MEDICINEID = "medicineID";
-    public static final String COLUMN_USERID = "userID";
-    public static final String COLUMN_TRANSACTIONDATE = "transactionDate";
-    public static final String COLUMN_QUANTITY = "quantity";
+    private static final String COLUMN_TRANSACTIONID = "transactionID";
+    private static final String COLUMN_MEDICINEID = "medicineID";
+    private static final String COLUMN_USERID = "userID";
+    private static final String COLUMN_TRANSACTIONDATE = "transactionDate";
+    private static final String COLUMN_QUANTITY = "quantity";
 
     public TransactionsHelper(Context context) {
         super(context, DATABASE_NAME, null, 2);
@@ -26,11 +26,11 @@ public class TransactionsHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + "(" +
-                "transactionID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "medicineID INTEGER," +
-                "userID INTEGER," +
-                "transactionDate INTEGER," +
-                "quantity INTEGER" +
+                COLUMN_TRANSACTIONID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_MEDICINEID + " INTEGER," +
+                COLUMN_USERID + " INTEGER," +
+                COLUMN_TRANSACTIONDATE + " INTEGER," +
+                COLUMN_QUANTITY + " INTEGER" +
                 ")");
     }
 
@@ -42,15 +42,15 @@ public class TransactionsHelper extends SQLiteOpenHelper {
 
     public List<Transaction> getAllDataByUser(int userId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + "=?", new String[] { String.valueOf(userId) });
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + "=?", new String[]{String.valueOf(userId)});
         List<Transaction> transactions = new ArrayList<>();
 
         while (res.moveToNext()) {
-            int transactionID = res.getInt(0);
-            int medicineID = res.getInt(1);
-            int userID = res.getInt(2);
-            long transactionDate = res.getLong(3);
-            int quantity = res.getInt(4);
+            int transactionID = res.getInt(res.getColumnIndex(COLUMN_TRANSACTIONID));
+            int medicineID = res.getInt(res.getColumnIndex(COLUMN_MEDICINEID));
+            int userID = res.getInt(res.getColumnIndex(COLUMN_USERID));
+            long transactionDate = res.getLong(res.getColumnIndex(COLUMN_TRANSACTIONDATE));
+            int quantity = res.getInt(res.getColumnIndex(COLUMN_QUANTITY));
 
             transactions.add(new Transaction(transactionID, medicineID, userID, transactionDate, quantity));
         }
@@ -69,31 +69,35 @@ public class TransactionsHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_TRANSACTIONDATE, System.currentTimeMillis());
         contentValues.put(COLUMN_QUANTITY, quantity);
 
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        try {
+            long result = db.insert(TABLE_NAME, null, contentValues);
+            db.close();
 
-        db.close();
-
-        if (result == -1) {
-            Log.e("DB_INSERT_ERROR", "Error while inserting into Transactions table");
+            if (result == -1) {
+                Log.e("DB_INSERT_ERROR", "Error while inserting into Transactions table");
+                return false;
+            } else {
+                Log.d("DB_INSERT", "Insert successful");
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e("DB_INSERT_ERROR", "Error while inserting into Transactions table: " + e.getMessage());
             return false;
-        } else {
-            Log.d("DB_INSERT", "Insert successful");
-            return true;
         }
     }
 
     public boolean updateTransaction(int transactionId, int newQuantity) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("quantity", newQuantity);
-        long result = db.update(TABLE_NAME, contentValues, "transactionID = ?", new String[]{String.valueOf(transactionId)});
+        contentValues.put(COLUMN_QUANTITY, newQuantity);
+        long result = db.update(TABLE_NAME, contentValues, COLUMN_TRANSACTIONID + "=?", new String[]{String.valueOf(transactionId)});
         db.close();
         return result != -1;
     }
 
     public boolean deleteTransaction(int transactionId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(TABLE_NAME, "transactionID = ?", new String[]{String.valueOf(transactionId)});
+        int result = db.delete(TABLE_NAME, COLUMN_TRANSACTIONID + "=?", new String[]{String.valueOf(transactionId)});
         db.close();
         return result > 0;
     }

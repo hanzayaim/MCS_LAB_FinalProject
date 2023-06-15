@@ -83,11 +83,13 @@ public class MedicineDetailActivity extends AppCompatActivity {
             }
 
             try {
-                if (transactionsHelper.buyTransaction(currentMedicine.getMedicineID(), currentUserId, quantity)) {
-                    Toast.makeText(this, "Purchase successful!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Purchase failed!", Toast.LENGTH_SHORT).show();
-                }
+                transactionsHelper.buyTransaction(currentUserId, currentMedicine.getMedicineID(), quantity);
+                Log.d("Debug", "currentUserId: " + currentUserId);
+                Log.d("Debug", "currentMedicineID: " + currentMedicine.getMedicineID());
+                Log.d("Debug", "quantity: " + quantity);
+                Toast.makeText(this, "Purchase successful!", Toast.LENGTH_SHORT).show();
+                finish();
+
             } catch (Exception e) {
                 Toast.makeText(this, "Purchase failed due to an error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 Log.e("PURCHASE_ERROR", "Error occurred during purchase", e);
