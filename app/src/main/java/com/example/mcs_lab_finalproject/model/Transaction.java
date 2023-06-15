@@ -7,10 +7,10 @@ public class Transaction {
     private int transactionID;
     private int medicineID;
     private int userID;
-    private Date transactionDate;
+    private long transactionDate;
     private int quantity;
 
-    public Transaction(int transactionID, int medicineID, int userID, Date transactionDate, int quantity) {
+    public Transaction(int transactionID, int medicineID, int userID, long transactionDate, int quantity) {
         this.transactionID = transactionID;
         this.medicineID = medicineID;
         this.userID = userID;
@@ -42,11 +42,11 @@ public class Transaction {
         this.userID = userID;
     }
 
-    public Date getTransactionDate() {
+    public long getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(long transactionDate) {
         this.transactionDate = transactionDate;
     }
 

@@ -3,6 +3,7 @@ package com.example.mcs_lab_finalproject.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -48,6 +49,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 Cursor result = db.getDataByEmailAndPassword(email, password);
                 if (result.getCount() > 0) {
+                    result.moveToFirst();
+                    int userID = result.getInt(result.getColumnIndex("userID"));
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                    SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                    myEdit.putInt("userID", userID);
+                    myEdit.apply();
+
                     Toast.makeText(getApplicationContext(), "Successfully Login!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);

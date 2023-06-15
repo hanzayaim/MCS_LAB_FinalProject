@@ -26,7 +26,7 @@
             >
 
             <ImageView
-                android:id="@+id/itemimgMedicine"
+                android:id="@+id/ivMedicineImage"
                 android:layout_width="100dp"
                 android:layout_height="130dp"
                 android:padding="10dp"
@@ -42,7 +42,7 @@
                 android:layout_gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/itemtvMedicineName"
+                    android:id="@+id/tvMedicineName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -57,13 +57,13 @@
                     />
 
                 <TextView
-                    android:id="@+id/itemtvMedicineManusfacturer"
+                    android:id="@+id/tvMedicineManufacturer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="10dp"
-                    android:text="Manusfacturer"
+                    android:text="Manufacturer"
                     android:textSize="20sp"
                     android:textStyle="normal"
                     android:maxLines="2"
@@ -71,7 +71,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/itemtvMedicinePrice"
+                    android:id="@+id/tvMedicinePrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
