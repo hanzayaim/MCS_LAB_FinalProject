@@ -20,7 +20,7 @@ public class MedicinesHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DESCRIPTION = "description";
 
     public MedicinesHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
     }
 
     @Override

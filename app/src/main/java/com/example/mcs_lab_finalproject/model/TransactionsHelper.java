@@ -20,7 +20,7 @@ public class TransactionsHelper extends SQLiteOpenHelper {
     private static final String COLUMN_QUANTITY = "quantity";
 
     public TransactionsHelper(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
     }
 
     @Override
@@ -39,6 +39,7 @@ public class TransactionsHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
+
 
     public List<Transaction> getAllDataByUser(int userId) {
         SQLiteDatabase db = this.getWritableDatabase();
