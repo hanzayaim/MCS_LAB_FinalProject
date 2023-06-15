@@ -2,11 +2,16 @@ package com.example.mcs_lab_finalproject.viewmodel;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -50,13 +55,61 @@ public class TransactionFragment extends Fragment implements TransactionAdapter.
     public void onUpdateClick(int position) {
         List<Transaction> transactionList = transactionsHelper.getAllDataByUser(currentUserId);
         Transaction transaction = transactionList.get(position);
-        Toast.makeText(getContext(), "Update clicked for position: " + position, Toast.LENGTH_SHORT).show();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Update Quantity");
+
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder.setView(input);
+
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String quantityStr = input.getText().toString();
+                if (quantityStr.isEmpty()) {
+                    Toast.makeText(getContext(), "Quantity must be filled!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                int quantity = Integer.parseInt(quantityStr);
+                if (quantity <= 0) {
+                    Toast.makeText(getContext(), "Quantity must be more than 0!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                try {
+                    transactionsHelper.updateTransaction(transaction.getTransactionID(), quantity);
+                    Toast.makeText(getContext(), "Update successful!", Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Update failed due to an error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.e("UPDATE_ERROR", "Error occurred during update", e);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override
     public void onDeleteClick(int position) {
         List<Transaction> transactionList = transactionsHelper.getAllDataByUser(currentUserId);
         Transaction transaction = transactionList.get(position);
-        Toast.makeText(getContext(), "Delete clicked for position: " + position, Toast.LENGTH_SHORT).show();
+
+        try {
+            transactionsHelper.deleteTransaction(transaction.getTransactionID());
+            Toast.makeText(getContext(), "Delete successful!", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Delete failed due to an error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.e("DELETE_ERROR", "Error occurred during delete", e);
+        }
     }
 }

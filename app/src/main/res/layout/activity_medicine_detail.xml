@@ -17,9 +17,9 @@
 
             <ImageView
                 android:id="@+id/ivMedicineImage"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:scaleType="centerCrop"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
                 android:src="@drawable/ic_launcher_background" />
 
             <LinearLayout
@@ -33,7 +33,10 @@
                     android:id="@+id/tvMedicineName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="25dp"
                     android:textStyle="bold"
                     android:text="Medicine Name" />
 
@@ -41,6 +44,8 @@
                     android:id="@+id/tvMedicinePrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:text="Medicine Price" />
 
@@ -48,6 +53,7 @@
                     android:id="@+id/tvMedicineManufacturer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="20dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:text="Medicine Manufacturer" />
 
@@ -62,6 +68,7 @@
                     android:id="@+id/etQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:hint="Enter quantity" />
 
                 <Button

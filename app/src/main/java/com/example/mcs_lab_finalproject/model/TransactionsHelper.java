@@ -1,5 +1,6 @@
 package com.example.mcs_lab_finalproject.model;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -20,37 +21,39 @@ public class TransactionsHelper extends SQLiteOpenHelper {
     private static final String COLUMN_QUANTITY = "quantity";
 
     public TransactionsHelper(Context context) {
-        super(context, DATABASE_NAME, null, 3);
+        super(context, DATABASE_NAME, null, 5);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + "(" +
-                COLUMN_TRANSACTIONID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COLUMN_MEDICINEID + " INTEGER," +
-                COLUMN_USERID + " INTEGER," +
-                COLUMN_TRANSACTIONDATE + " INTEGER," +
-                COLUMN_QUANTITY + " INTEGER" +
+                "transactionID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "medicineID INTEGER," +
+                "userID INTEGER," +
+                "transactionDate INTEGER," +
+                "quantity INTEGER," +
+                "FOREIGN KEY(medicineID) REFERENCES Medicines(medicineID)," +
+                "FOREIGN KEY(userID) REFERENCES Users(userID)" +
                 ")");
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS Transactions");
         onCreate(db);
     }
 
     public List<Transaction> getAllDataByUser(int userId) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + "=?", new String[]{String.valueOf(userId)});
         List<Transaction> transactions = new ArrayList<>();
 
         while (res.moveToNext()) {
-            int transactionID = res.getInt(res.getColumnIndex(COLUMN_TRANSACTIONID));
-            int medicineID = res.getInt(res.getColumnIndex(COLUMN_MEDICINEID));
-            int userID = res.getInt(res.getColumnIndex(COLUMN_USERID));
-            long transactionDate = res.getLong(res.getColumnIndex(COLUMN_TRANSACTIONDATE));
-            int quantity = res.getInt(res.getColumnIndex(COLUMN_QUANTITY));
+            @SuppressLint("Range") int transactionID = res.getInt(res.getColumnIndex(COLUMN_TRANSACTIONID));
+            @SuppressLint("Range") int medicineID = res.getInt(res.getColumnIndex(COLUMN_MEDICINEID));
+            @SuppressLint("Range") int userID = res.getInt(res.getColumnIndex(COLUMN_USERID));
+            @SuppressLint("Range") long transactionDate = res.getLong(res.getColumnIndex(COLUMN_TRANSACTIONDATE));
+            @SuppressLint("Range") int quantity = res.getInt(res.getColumnIndex(COLUMN_QUANTITY));
 
             transactions.add(new Transaction(transactionID, medicineID, userID, transactionDate, quantity));
         }

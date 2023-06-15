@@ -1,5 +1,6 @@
 package com.example.mcs_lab_finalproject.model;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -20,7 +21,7 @@ public class MedicinesHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DESCRIPTION = "description";
 
     public MedicinesHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 3);
+        super(context, DATABASE_NAME, null, 5);
     }
 
     @Override
@@ -64,11 +65,11 @@ public class MedicinesHelper extends SQLiteOpenHelper {
         Cursor result = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_MEDICINEID + "=?", new String[] { String.valueOf(id) });
 
         if (result != null && result.moveToFirst()) {
-            String name = result.getString(result.getColumnIndex(COLUMN_NAME));
-            String manufacturer = result.getString(result.getColumnIndex(COLUMN_MANUFACTURER));
-            int price = result.getInt(result.getColumnIndex(COLUMN_PRICE));
-            String image = result.getString(result.getColumnIndex(COLUMN_IMAGE));
-            String description = result.getString(result.getColumnIndex(COLUMN_DESCRIPTION));
+            @SuppressLint("Range") String name = result.getString(result.getColumnIndex(COLUMN_NAME));
+            @SuppressLint("Range") String manufacturer = result.getString(result.getColumnIndex(COLUMN_MANUFACTURER));
+            @SuppressLint("Range") int price = result.getInt(result.getColumnIndex(COLUMN_PRICE));
+            @SuppressLint("Range") String image = result.getString(result.getColumnIndex(COLUMN_IMAGE));
+            @SuppressLint("Range") String description = result.getString(result.getColumnIndex(COLUMN_DESCRIPTION));
 
             result.close();
             return new Medicines(id, name, manufacturer, price, image, description);
