@@ -1,6 +1,7 @@
 package com.example.mcs_lab_finalproject.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.mcs_lab_finalproject.R;
 import com.example.mcs_lab_finalproject.model.Medicines;
+import com.example.mcs_lab_finalproject.view.MedicineDetailActivity;
 
 import java.util.List;
 
@@ -39,13 +41,26 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.ViewHo
         holder.tvMedicineManufacturer.setText(currentItem.getManufacturer());
         holder.tvMedicinePrice.setText(String.valueOf(currentItem.getPrice()));
 
-
-
         Glide.with(context)
                 .load(currentItem.getImage())
                 .centerCrop()
                 .into(holder.ivMedicineImage);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MedicineDetailActivity.class);
+
+                intent.putExtra("medicineID", currentItem.getMedicineID());
+                intent.putExtra("name", currentItem.getName());
+                intent.putExtra("manufacturer", currentItem.getManufacturer());
+                intent.putExtra("price", currentItem.getPrice());
+                intent.putExtra("image", currentItem.getImage());
+                intent.putExtra("description", currentItem.getDescription());
+
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
