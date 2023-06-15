@@ -73,7 +73,7 @@ public class MedicineFragment extends Fragment {
                                 medicinesList.add(med);
                             }
 
-                            adapter.notifyDataSetChanged(); // Menyampaikan perubahan ke adapter
+                            adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class TransactionsHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "BluejackPharmacy.db";
-    private static final String TABLE_NAME = "Transactions";
+    public static final String TABLE_NAME = "Transactions";
     private static final String COLUMN_TRANSACTIONID = "transactionID";
     private static final String COLUMN_MEDICINEID = "medicineID";
     private static final String COLUMN_USERID = "userID";
@@ -36,10 +36,9 @@ public class TransactionsHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS Transactions");
         onCreate(db);
     }
-
 
     public List<Transaction> getAllDataByUser(int userId) {
         SQLiteDatabase db = this.getWritableDatabase();
