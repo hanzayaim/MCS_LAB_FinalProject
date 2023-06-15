@@ -1,6 +1,7 @@
 package com.example.mcs_lab_finalproject.viewmodel;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +39,13 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.ViewHo
         holder.tvMedicineManufacturer.setText(currentItem.getManufacturer());
         holder.tvMedicinePrice.setText(String.valueOf(currentItem.getPrice()));
 
+
+
         Glide.with(context)
                 .load(currentItem.getImage())
                 .centerCrop()
                 .into(holder.ivMedicineImage);
+
     }
 
     @Override
@@ -58,10 +62,10 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
 
-            tvMedicineName = itemView.findViewById(R.id.tvMedicineName);
-            tvMedicineManufacturer = itemView.findViewById(R.id.tvMedicineManufacturer);
-            tvMedicinePrice = itemView.findViewById(R.id.tvMedicinePrice);
-            ivMedicineImage = itemView.findViewById(R.id.ivMedicineImage);
+            tvMedicineName = itemView.findViewById(R.id.itemtvMedicineName);
+            tvMedicineManufacturer = itemView.findViewById(R.id.itemtvMedicineManusfacturer);
+            tvMedicinePrice = itemView.findViewById(R.id.itemtvMedicinePrice);
+            ivMedicineImage = itemView.findViewById(R.id.itemimgMedicine);
         }
     }
 }

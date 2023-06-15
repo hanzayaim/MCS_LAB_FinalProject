@@ -62,7 +62,7 @@ public class MedicineFragment extends Fragment {
                             JSONArray medicines = response.getJSONArray("medicines");
                             for (int i = 0; i < medicines.length(); i++) {
                                 JSONObject medicine = medicines.getJSONObject(i);
-                                int id = i; // Changed this line
+                                int id = i;
                                 String name = medicine.getString("name");
                                 String manufacturer = medicine.getString("manufacturer");
                                 int price = medicine.getInt("price");
@@ -73,12 +73,13 @@ public class MedicineFragment extends Fragment {
                                 medicinesList.add(med);
                             }
 
-                            adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged(); // Menyampaikan perubahan ke adapter
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
+
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
