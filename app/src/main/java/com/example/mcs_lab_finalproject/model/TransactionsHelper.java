@@ -65,6 +65,8 @@ public class TransactionsHelper extends SQLiteOpenHelper {
             contentValues.put(COLUMN_USERID, userID);
             contentValues.put(COLUMN_TRANSACTIONDATE, System.currentTimeMillis());
             contentValues.put(COLUMN_QUANTITY, quantity);
+            contentValues.put(COLUMN_MEDICINENAME, medicineName);
+            contentValues.put(COLUMN_MEDICINEPRICE, medicinePrice);
 
             long result = db.insert(TABLE_NAME, null, contentValues);
             return result != -1;
