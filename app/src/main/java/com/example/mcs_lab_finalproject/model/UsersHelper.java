@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class UsersHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "BluejackPharmacy.db";
+    public static final String DATABASE_NAME = "finpromcs";
     public static final String TABLE_NAME = "Users";
     public static final String COLUMN_USERID = "userID";
     public static final String COLUMN_NAME = "name";

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -14,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionsHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "BluejackPharmacy.db";
-    public static final String TABLE_NAME = "Transactions";
+    private static final String DATABASE_NAME = "finpromcs";
+    public static final String TABLE_NAME = "TransactionsTable";
     private static final String COLUMN_TRANSACTIONID = "transactionID";
     private static final String COLUMN_MEDICINEID = "medicineID";
     private static final String COLUMN_USERID = "userID";
@@ -37,11 +36,12 @@ public class TransactionsHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(medicineID) REFERENCES Medicines(medicineID)," +
                 "FOREIGN KEY(userID) REFERENCES Users(userID)" +
                 ")");
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS Transactions");
+        db.execSQL("DROP TABLE IF EXISTS TransactionsTable");
         onCreate(db);
     }
 
@@ -54,21 +54,9 @@ public class TransactionsHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_TRANSACTIONDATE, System.currentTimeMillis());
         contentValues.put(COLUMN_QUANTITY, quantity);
 
-        try {
-            long result = db.insert(TABLE_NAME, null, contentValues);
-            db.close();
+        long result = db.insert(TABLE_NAME, null, contentValues);
+        return result != -1;
 
-            if (result == -1) {
-                Log.e("DB_INSERT_ERROR", "Error while inserting into Transactions table");
-                return false;
-            } else {
-                Log.d("DB_INSERT", "Insert successful");
-                return true;
-            }
-        } catch (Exception e) {
-            Log.e("DB_INSERT_ERROR", "Error while inserting into Transactions table: " + e.getMessage());
-            return false;
-        }
     }
 
     public Cursor getAllData() {

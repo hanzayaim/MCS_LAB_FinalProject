@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 public class MedicinesHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "BluejackPharmacy.db";
+    public static final String DATABASE_NAME = "finpromcs";
     public static final String TABLE_NAME = "Medicines";
     public static final String COLUMN_MEDICINEID = "medicineID";
     public static final String COLUMN_NAME = "name";
