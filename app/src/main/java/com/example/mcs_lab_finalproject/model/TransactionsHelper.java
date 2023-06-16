@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +22,8 @@ public class TransactionsHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TRANSACTIONDATE = "transactionDate";
     private static final String COLUMN_QUANTITY = "quantity";
 
-    public TransactionsHelper(Context context) {
-        super(context, DATABASE_NAME, null, 5);
+    public TransactionsHelper(@Nullable Context context) {
+        super(context, DATABASE_NAME, null, 6);
     }
 
     @Override
@@ -43,26 +45,6 @@ public class TransactionsHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public List<Transaction> getAllDataByUser(int userId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + "=?", new String[]{String.valueOf(userId)});
-        List<Transaction> transactions = new ArrayList<>();
-
-        while (res.moveToNext()) {
-            @SuppressLint("Range") int transactionID = res.getInt(res.getColumnIndex(COLUMN_TRANSACTIONID));
-            @SuppressLint("Range") int medicineID = res.getInt(res.getColumnIndex(COLUMN_MEDICINEID));
-            @SuppressLint("Range") int userID = res.getInt(res.getColumnIndex(COLUMN_USERID));
-            @SuppressLint("Range") long transactionDate = res.getLong(res.getColumnIndex(COLUMN_TRANSACTIONDATE));
-            @SuppressLint("Range") int quantity = res.getInt(res.getColumnIndex(COLUMN_QUANTITY));
-
-            transactions.add(new Transaction(transactionID, medicineID, userID, transactionDate, quantity));
-        }
-
-        res.close();
-        db.close();
-
-        return transactions;
-    }
 
     public boolean buyTransaction(int medicineID, int userID, int quantity) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -88,6 +70,35 @@ public class TransactionsHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public Cursor getAllData() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        return result;
+    }
+
+    public List<Transaction> getAllDataByUser(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + "=?", new String[]{String.valueOf(userId)});
+        List<Transaction> transactions = new ArrayList<>();
+
+        while (res.moveToNext()) {
+            @SuppressLint("Range") int transactionID = res.getInt(res.getColumnIndex(COLUMN_TRANSACTIONID));
+            @SuppressLint("Range") int medicineID = res.getInt(res.getColumnIndex(COLUMN_MEDICINEID));
+            @SuppressLint("Range") int userID = res.getInt(res.getColumnIndex(COLUMN_USERID));
+            @SuppressLint("Range") long transactionDate = res.getLong(res.getColumnIndex(COLUMN_TRANSACTIONDATE));
+            @SuppressLint("Range") int quantity = res.getInt(res.getColumnIndex(COLUMN_QUANTITY));
+
+            transactions.add(new Transaction(transactionID, medicineID, userID, transactionDate, quantity));
+        }
+
+        res.close();
+        db.close();
+
+        return transactions;
+    }
+
+
 
     public boolean updateTransaction(int transactionId, int newQuantity) {
         SQLiteDatabase db = this.getWritableDatabase();

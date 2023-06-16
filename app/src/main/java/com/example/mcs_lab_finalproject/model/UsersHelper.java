@@ -20,7 +20,7 @@ public class UsersHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ISVERIFIED = "isVerified";
 
     public UsersHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 5);
+        super(context, DATABASE_NAME, null, 6);
     }
 
     @Override

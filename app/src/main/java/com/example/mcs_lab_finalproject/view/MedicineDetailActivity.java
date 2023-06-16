@@ -90,7 +90,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
             }
 
             try {
-                transactionsHelper.buyTransaction(currentUserId, currentMedicine.getMedicineID(), quantity);
+                transactionsHelper.buyTransaction(currentMedicine.getMedicineID(),currentUserId,quantity );
                 Log.d("Debug", "currentUserId: " + currentUserId);
                 Log.d("Debug", "currentMedicineID: " + currentMedicine.getMedicineID());
                 Log.d("Debug", "quantity: " + quantity);
