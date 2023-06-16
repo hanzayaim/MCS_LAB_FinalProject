@@ -60,6 +60,7 @@ public class TransactionFragment extends Fragment implements TransactionAdapter.
         return view;
     }
 
+
     @Override
     public void onUpdateClick(int position) {
         List<Transaction> transactionList = transactionsHelper.getAllDataByUser(currentUserId);
@@ -91,10 +92,14 @@ public class TransactionFragment extends Fragment implements TransactionAdapter.
                     transactionsHelper.updateTransaction(transaction.getTransactionID(), quantity);
                     Toast.makeText(getContext(), "Update successful!", Toast.LENGTH_SHORT).show();
 
+                    List<Transaction> updatedTransactionList = transactionsHelper.getAllDataByUser(currentUserId);
+                    adapter.setTransactionList(updatedTransactionList); // Mengatur daftar transaksi yang diperbarui
+                    adapter.notifyDataSetChanged(); // Memperbarui tampilan daftar transaksi setelah pembaruan
                 } catch (Exception e) {
                     Toast.makeText(getContext(), "Update failed due to an error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     Log.e("UPDATE_ERROR", "Error occurred during update", e);
                 }
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -107,18 +112,28 @@ public class TransactionFragment extends Fragment implements TransactionAdapter.
         builder.show();
     }
 
+    private void refreshData() {
+        List<Transaction> transactionList = transactionsHelper.getAllDataByUser(currentUserId);
+        adapter.setTransactionList(transactionList);
+        adapter.notifyDataSetChanged();
+    }
+
+
     @Override
     public void onDeleteClick(int position) {
         List<Transaction> transactionList = transactionsHelper.getAllDataByUser(currentUserId);
         Transaction transaction = transactionList.get(position);
-
         try {
             transactionsHelper.deleteTransaction(transaction.getTransactionID());
             Toast.makeText(getContext(), "Delete successful!", Toast.LENGTH_SHORT).show();
 
+            List<Transaction> updatedTransactionList = transactionsHelper.getAllDataByUser(currentUserId);
+            adapter.setTransactionList(updatedTransactionList); // Mengatur daftar transaksi yang diperbarui
+            adapter.notifyDataSetChanged(); // Memperbarui tampilan daftar transaksi setelah penghapusan
         } catch (Exception e) {
             Toast.makeText(getContext(), "Delete failed due to an error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("DELETE_ERROR", "Error occurred during delete", e);
         }
+
     }
 }

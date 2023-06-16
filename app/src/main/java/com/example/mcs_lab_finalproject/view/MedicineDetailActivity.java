@@ -95,6 +95,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
                 Log.d("Debug", "currentMedicineID: " + currentMedicine.getMedicineID());
                 Log.d("Debug", "quantity: " + quantity);
                 Toast.makeText(this, "Purchase successful!", Toast.LENGTH_SHORT).show();
+
                 finish();
 
             } catch (Exception e) {
