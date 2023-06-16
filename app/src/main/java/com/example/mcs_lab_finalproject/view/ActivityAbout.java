@@ -49,11 +49,11 @@ public class ActivityAbout  extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here.
+
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            // Finish the activity when the back button is pressed
+
             finish();
             return true;
         }

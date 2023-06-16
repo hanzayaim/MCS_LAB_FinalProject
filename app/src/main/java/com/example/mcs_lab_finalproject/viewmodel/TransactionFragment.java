@@ -1,9 +1,11 @@
 package com.example.mcs_lab_finalproject.viewmodel;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
@@ -35,6 +37,8 @@ public class TransactionFragment extends Fragment implements TransactionAdapter.
     private TransactionAdapter adapter;
 
 
+    private static final int REQUEST_CODE_MEDICINE_DETAIL = 1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_transaction_section, container, false);
@@ -58,6 +62,17 @@ public class TransactionFragment extends Fragment implements TransactionAdapter.
         adapter.notifyDataSetChanged();
 
         return view;
+
+    }
+
+    // Override onActivityResult()
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_MEDICINE_DETAIL && resultCode == RESULT_OK) {
+            refreshData();
+        }
     }
 
 
@@ -128,8 +143,8 @@ public class TransactionFragment extends Fragment implements TransactionAdapter.
             Toast.makeText(getContext(), "Delete successful!", Toast.LENGTH_SHORT).show();
 
             List<Transaction> updatedTransactionList = transactionsHelper.getAllDataByUser(currentUserId);
-            adapter.setTransactionList(updatedTransactionList); // Mengatur daftar transaksi yang diperbarui
-            adapter.notifyDataSetChanged(); // Memperbarui tampilan daftar transaksi setelah penghapusan
+            adapter.setTransactionList(updatedTransactionList);
+            adapter.notifyDataSetChanged();
         } catch (Exception e) {
             Toast.makeText(getContext(), "Delete failed due to an error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.e("DELETE_ERROR", "Error occurred during delete", e);
