@@ -62,7 +62,7 @@ public class MedicineFragment extends Fragment {
                             JSONArray medicines = response.getJSONArray("medicines");
                             for (int i = 0; i < medicines.length(); i++) {
                                 JSONObject medicine = medicines.getJSONObject(i);
-                                int id = i;
+                                int id = i + 1;
                                 String name = medicine.getString("name");
                                 String manufacturer = medicine.getString("manufacturer");
                                 int price = medicine.getInt("price");

@@ -47,10 +47,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         Medicines medicine = medicinesHelper.getMedicineById(transaction.getMedicineID());
 
-        holder.tvTransactionDate.setText(format.format(transaction.getTransactionDate()));
-        holder.tvMedicineName.setText(medicine.getName());
-        holder.tvMedicinePrice.setText(String.valueOf(medicine.getPrice()));
-        holder.tvTransactionQuantity.setText(String.valueOf(transaction.getQuantity()));
+        if (medicine != null) {
+            holder.tvTransactionDate.setText(format.format(transaction.getTransactionDate()));
+            holder.tvMedicineName.setText(medicine.getName());
+            holder.tvMedicinePrice.setText(String.valueOf(medicine.getPrice()));
+            holder.tvTransactionQuantity.setText(String.valueOf(transaction.getQuantity()));
+        }
     }
 
     @Override

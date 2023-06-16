@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 Cursor result = db.getDataByEmailAndPassword(email, password);
-                if (result.getCount() > 0) {
+                if (result.getCount() > 0 && result.moveToFirst()) {
                     result.moveToFirst();
                     int userID = result.getInt(result.getColumnIndex("userID"));
 

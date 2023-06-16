@@ -26,7 +26,17 @@ public class MedicinesHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME + "(" +
+        createTable(db);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+    }
+
+    private void createTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" +
                 "medicineID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "name TEXT," +
                 "manufacturer TEXT," +
@@ -36,14 +46,13 @@ public class MedicinesHelper extends SQLiteOpenHelper {
                 ")");
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
-    }
-
     public boolean insertData(String name, String manufacturer, int price, String image, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
+
+        if (!isTableExists(db, TABLE_NAME)) {
+            createTable(db);
+        }
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, name);
         contentValues.put(COLUMN_MANUFACTURER, manufacturer);
@@ -56,12 +65,22 @@ public class MedicinesHelper extends SQLiteOpenHelper {
 
     public Cursor getAllData() {
         SQLiteDatabase db = this.getReadableDatabase();
+
+        if (!isTableExists(db, TABLE_NAME)) {
+            return null;
+        }
+
         Cursor result = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         return result;
     }
 
     public Medicines getMedicineById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
+
+        if (!isTableExists(db, TABLE_NAME)) {
+            return null;
+        }
+
         Cursor result = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_MEDICINEID + "=?", new String[] { String.valueOf(id) });
 
         if (result != null && result.moveToFirst()) {
@@ -76,5 +95,33 @@ public class MedicinesHelper extends SQLiteOpenHelper {
         }
 
         return null;
+    }
+
+    public int getLastInsertId() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        if (!isTableExists(db, TABLE_NAME)) {
+            return -1;
+        }
+
+        Cursor cursor = db.rawQuery("SELECT last_insert_rowid()", null);
+        int id = -1;
+        if (cursor != null && cursor.moveToFirst()) {
+            id = cursor.getInt(0);
+            cursor.close();
+        }
+        return id;
+    }
+
+    private boolean isTableExists(SQLiteDatabase db, String tableName) {
+        Cursor cursor = db.rawQuery("SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name = ?", new String[]{tableName});
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
     }
 }
