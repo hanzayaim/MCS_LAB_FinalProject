@@ -36,7 +36,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         this.context = context;
         this.listener = listener;
         this.medicinesHelper = medicinesHelper;
-        this.transactionsHelper = transactionsHelper; // Menambahkan inisialisasi TransactionsHelper
+        this.transactionsHelper = transactionsHelper;
     }
 
     @NonNull
@@ -54,8 +54,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         Medicines medicine = medicinesHelper.getMedicineById(transaction.getMedicineID());
 
         holder.tvTransactionDate.setText(format.format(transaction.getTransactionDate()));
-//        holder.tvMedicineName.setText(String.valueOf(transaction.getMedicineName()));
-//        holder.tvMedicinePrice.setText(transaction.getMedicinePrice());
+        holder.tvMedicineName.setText(String.valueOf(transaction.getMedicineName()));
+        holder.tvMedicinePrice.setText(String.valueOf(transaction.getMedicinePrice()));
         holder.tvTransactionQuantity.setText(String.valueOf(transaction.getQuantity()));
     }
 
