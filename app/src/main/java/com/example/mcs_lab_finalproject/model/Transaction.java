@@ -10,12 +10,34 @@ public class Transaction {
     private long transactionDate;
     private int quantity;
 
-    public Transaction(int transactionID, int medicineID, int userID, long transactionDate, int quantity) {
+    private String medicineName;
+    private int medicinePrice;
+
+    public Transaction(int transactionID, int medicineID, int userID, long transactionDate, int quantity, String medicineName, int medicinePrice) {
         this.transactionID = transactionID;
         this.medicineID = medicineID;
         this.userID = userID;
         this.transactionDate = transactionDate;
         this.quantity = quantity;
+        this.medicineName = medicineName;
+        this.medicinePrice = medicinePrice;
+    }
+
+
+    public String getMedicineName() {
+        return medicineName;
+    }
+
+    public void setMedicineName(String medicineName) {
+        this.medicineName = medicineName;
+    }
+
+    public int getMedicinePrice() {
+        return medicinePrice;
+    }
+
+    public void setMedicinePrice(int medicinePrice) {
+        this.medicinePrice = medicinePrice;
     }
 
     public int getTransactionID() {

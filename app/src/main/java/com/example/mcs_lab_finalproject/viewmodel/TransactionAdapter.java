@@ -14,6 +14,7 @@ import com.example.mcs_lab_finalproject.R;
 import com.example.mcs_lab_finalproject.model.Medicines;
 import com.example.mcs_lab_finalproject.model.MedicinesHelper;
 import com.example.mcs_lab_finalproject.model.Transaction;
+import com.example.mcs_lab_finalproject.model.TransactionsHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,11 +27,16 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     private TransactionInteractionListener listener;
     private MedicinesHelper medicinesHelper;
 
-    public TransactionAdapter(List<Transaction> transactionList, Context context, TransactionInteractionListener listener, MedicinesHelper medicinesHelper) {
+    private TransactionsHelper transactionsHelper;
+
+
+
+    public TransactionAdapter(List<Transaction> transactionList, Context context, TransactionInteractionListener listener, MedicinesHelper medicinesHelper, TransactionsHelper transactionsHelper) {
         this.transactionList = transactionList;
         this.context = context;
         this.listener = listener;
         this.medicinesHelper = medicinesHelper;
+        this.transactionsHelper = transactionsHelper; // Menambahkan inisialisasi TransactionsHelper
     }
 
     @NonNull
@@ -47,12 +53,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         Medicines medicine = medicinesHelper.getMedicineById(transaction.getMedicineID());
 
-        if (medicine != null) {
-            holder.tvTransactionDate.setText(format.format(transaction.getTransactionDate()));
-            holder.tvMedicineName.setText(medicine.getName());
-            holder.tvMedicinePrice.setText(String.valueOf(medicine.getPrice()));
-            holder.tvTransactionQuantity.setText(String.valueOf(transaction.getQuantity()));
-        }
+        holder.tvTransactionDate.setText(format.format(transaction.getTransactionDate()));
+//        holder.tvMedicineName.setText(String.valueOf(transaction.getMedicineName()));
+//        holder.tvMedicinePrice.setText(transaction.getMedicinePrice());
+        holder.tvTransactionQuantity.setText(String.valueOf(transaction.getQuantity()));
     }
 
     @Override
@@ -67,12 +71,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         public ViewHolder(View itemView, TransactionInteractionListener listener) {
             super(itemView);
-            tvTransactionDate = itemView.findViewById(R.id.tvTransactionDate);
-            tvMedicineName = itemView.findViewById(R.id.tvMedicineName);
-            tvMedicinePrice = itemView.findViewById(R.id.tvMedicinePrice);
-            tvTransactionQuantity = itemView.findViewById(R.id.tvTransactionQuantity);
-            btnUpdate = itemView.findViewById(R.id.btnUpdate);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
+            tvTransactionDate = itemView.findViewById(R.id.itemtrTransactionDate);
+            tvMedicineName = itemView.findViewById(R.id.itemtrTransactionName);
+            tvMedicinePrice = itemView.findViewById(R.id.itemtrTransactionPrice);
+            tvTransactionQuantity = itemView.findViewById(R.id.itemtrTransactionQuantity);
+            btnUpdate = itemView.findViewById(R.id.itembtnUpdate);
+            btnDelete = itemView.findViewById(R.id.itembtnDelete);
 
             btnUpdate.setOnClickListener(v -> listener.onUpdateClick(getAdapterPosition()));
             btnDelete.setOnClickListener(v -> listener.onDeleteClick(getAdapterPosition()));

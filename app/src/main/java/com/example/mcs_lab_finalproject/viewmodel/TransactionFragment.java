@@ -32,6 +32,9 @@ public class TransactionFragment extends Fragment implements TransactionAdapter.
     private MedicinesHelper medicinesHelper;
     private int currentUserId;
 
+    private TransactionAdapter adapter;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_transaction_section, container, false);
@@ -46,7 +49,13 @@ public class TransactionFragment extends Fragment implements TransactionAdapter.
         currentUserId = sharedPreferences.getInt("userID", 0);
 
         List<Transaction> transactionList = transactionsHelper.getAllDataByUser(currentUserId);
-        rvTransactions.setAdapter(new TransactionAdapter(transactionList, getContext(), this, medicinesHelper));
+        Log.d("TransactionFragment", "Transaction List Size: " + transactionList.size());
+
+        adapter = new TransactionAdapter(transactionList, getContext(), this, medicinesHelper, transactionsHelper);
+        adapter.setTransactionList(transactionList);
+        rvTransactions.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
 
         return view;
     }

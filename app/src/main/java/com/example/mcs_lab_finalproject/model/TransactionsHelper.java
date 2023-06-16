@@ -21,6 +21,11 @@ public class TransactionsHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TRANSACTIONDATE = "transactionDate";
     private static final String COLUMN_QUANTITY = "quantity";
 
+    private static final String COLUMN_MEDICINENAME = "medicineName";
+
+    private static final String COLUMN_MEDICINEPRICE = "medicinePrice";
+
+
     public TransactionsHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 6);
     }
@@ -33,6 +38,8 @@ public class TransactionsHelper extends SQLiteOpenHelper {
                 "userID INTEGER," +
                 "transactionDate INTEGER," +
                 "quantity INTEGER," +
+                "medicineName TEXT," +
+                "medicinePrice INTEGER," +
                 "FOREIGN KEY(medicineID) REFERENCES Medicines(medicineID)," +
                 "FOREIGN KEY(userID) REFERENCES Users(userID)" +
                 ")");
@@ -44,7 +51,7 @@ public class TransactionsHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean buyTransaction(int medicineID, int userID, int quantity) {
+    public boolean buyTransaction(int medicineID, int userID, int quantity, String medicineName, int medicinePrice) {
         SQLiteDatabase db = null;
         try {
             db = this.getWritableDatabase();
@@ -98,8 +105,12 @@ public class TransactionsHelper extends SQLiteOpenHelper {
                 @SuppressLint("Range") int userID = res.getInt(res.getColumnIndex(COLUMN_USERID));
                 @SuppressLint("Range") long transactionDate = res.getLong(res.getColumnIndex(COLUMN_TRANSACTIONDATE));
                 @SuppressLint("Range") int quantity = res.getInt(res.getColumnIndex(COLUMN_QUANTITY));
+                @SuppressLint("Range") String medicineName = res.getString(res.getColumnIndex(COLUMN_MEDICINENAME));
+                @SuppressLint("Range") int medicinePrice = res.getInt(res.getColumnIndex(COLUMN_MEDICINEPRICE));
 
-                transactions.add(new Transaction(transactionID, medicineID, userID, transactionDate, quantity));
+
+
+                transactions.add(new Transaction(transactionID, medicineID, userID, transactionDate, quantity, medicineName,medicinePrice));
             }
         } finally {
             if (res != null) {

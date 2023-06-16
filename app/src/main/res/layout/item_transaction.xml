@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     >
 
@@ -12,7 +12,7 @@
         >
 
         <TextView
-            android:id="@+id/tvTransactionDate"
+            android:id="@+id/itemtrTransactionDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Transaction Date"
@@ -21,7 +21,7 @@
             />
 
         <TextView
-            android:id="@+id/tvMedicineName"
+            android:id="@+id/itemtrTransactionName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -30,7 +30,7 @@
             />
 
         <TextView
-            android:id="@+id/tvMedicinePrice"
+            android:id="@+id/itemtrTransactionPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Price"
@@ -39,7 +39,7 @@
             />
 
         <TextView
-            android:id="@+id/tvTransactionQuantity"
+            android:id="@+id/itemtrTransactionQuantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Quantity"
@@ -56,14 +56,14 @@
         >
 
         <Button
-            android:id="@+id/btnUpdate"
+            android:id="@+id/itembtnUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="UPDATE"
             />
 
         <Button
-            android:id="@+id/btnDelete"
+            android:id="@+id/itembtnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DELETE"
